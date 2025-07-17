@@ -22,6 +22,9 @@ For easy, system-wide access, you can install this tool from PyPI:
 ```bash
 pip install agentspace-registration-cli
 ```
+
+*(Note: The package name on PyPI is `agentspace-registration-cli`, but the command to run it is `agentspace-reg`)*
+
 ### 2. Direct Download
 
 Alternatively, you can download the script and run it directly:
@@ -33,7 +36,9 @@ chmod +x agentspace_registration_cli.py
 
 ## Usage
 
-The CLI is invoked with an action keyword (`register`, `view`, `list`, `update`, `delete`) followed by the necessary flags.
+After installation via pip, the tool is available as `agentspace-reg`.
+
+If you downloaded the script directly, you will invoke it with `python agentspace_registration_cli.py`. All examples below use the `agentspace-reg` command.
 
 ---
 
@@ -43,7 +48,7 @@ To register a new agent, you need to provide its configuration details.
 
 **Example:**
 ```bash
-python agentspace_registration_cli.py register \
+agentspace-reg register \
   --project_id "your-gcp-project-id" \
   --app_id "your-agentspace-app-id" \
   --display_name "My Awesome Agent" \
@@ -62,7 +67,7 @@ To view the details of a specific, existing agent.
 
 **Example:**
 ```bash
-python agentspace_registration_cli.py view \
+agentspace-reg view \
   --project_id "your-gcp-project-id" \
   --app_id "your-agentspace-app-id" \
   --agent_id "the-id-of-the-agent-to-view"
@@ -76,7 +81,7 @@ To list all agents currently registered within an Agentspace application.
 
 **Example:**
 ```bash
-python agentspace_registration_cli.py list \
+agentspace-reg list \
   --project_id "your-gcp-project-id" \
   --app_id "your-agentspace-app-id"
 ```
@@ -89,7 +94,7 @@ To update an existing agent, you must provide all required fields, even if they 
 
 **Example:**
 ```bash
-python agentspace_registration_cli.py update \
+agentspace-reg update \
   --project_id "your-gcp-project-id" \
   --app_id "your-agentspace-app-id" \
   --agent_id "the-id-of-the-agent-to-update" \
@@ -107,7 +112,7 @@ To permanently delete an agent. **This action cannot be undone.**
 
 **Example:**
 ```bash
-python agentspace_registration_cli.py delete \
+agentspace-reg delete \
   --project_id "your-gcp-project-id" \
   --app_id "your-agentspace-app-id" \
   --agent_id "the-id-of-the-agent-to-delete"
@@ -126,4 +131,3 @@ python agentspace_registration_cli.py delete \
 | `--adk_deployment_id`| The ID of the reasoning engine where the ADK agent is deployed.             | `register`, `update`          |
 | `--icon_uri`        | Optional: A public URI for the agent's icon.                                | `register`, `update`          |
 | `--auth_ids`        | Optional: A comma-separated list of authorization resource IDs.             | `register`, `update`          |
-
