@@ -49,12 +49,12 @@ To register a new agent, you need to provide its configuration details.
 **Example:**
 ```bash
 agentspace-reg register \
-  --project_id "your-gcp-project-id" \
-  --app_id "your-agentspace-app-id" \
-  --display_name "My Awesome Agent" \
-  --description "This agent does awesome things." \
-  --tool_description "An agent that can be used to do awesome things." \
-  --adk_deployment_id "your-adk-deployment-id" \
+  --project_id "my-ai-project-12345" \
+  --app_id "customer-support-app" \
+  --display_name "TechSupportBot" \
+  --description "Provides technical support and troubleshooting assistance." \
+  --tool_description "An AI agent that helps users with technical issues and product questions." \
+  --adk_deployment_id "7845692103458921067" \
   --icon_uri "https://example.com/icon.png"
 ```
 Upon success, the script will print the full API response, including the **Agent ID**, which you should save for future operations.
@@ -131,3 +131,56 @@ agentspace-reg delete \
 | `--adk_deployment_id`| The ID of the reasoning engine where the ADK agent is deployed.             | `register`, `update`          |
 | `--icon_uri`        | Optional: A public URI for the agent's icon.                                | `register`, `update`          |
 | `--auth_ids`        | Optional: A comma-separated list of authorization resource IDs.             | `register`, `update`          |
+| `--discovery_location` | Optional: Location where your Agentspace app is created (default: "global"). | All actions                |
+| `--reasoning_location` | Optional: Location where your reasoning engine is deployed (default: "global"). | `register`, `update`    |
+| `--auth_location`   | Optional: Location where your authorization resources are created (default: "global"). | `register`, `update` |
+
+## Multi-Region Support
+
+Starting with version 0.9.2, this tool supports multi-region deployments where your Discovery Engine, Reasoning Engine, and Authorization resources can be deployed in different Google Cloud regions.
+
+### When to Use Multi-Region Flags
+
+**Use the default "global" location when:**
+- You want the best performance and full feature set
+- You don't have specific compliance or regulatory requirements
+- Your resources are deployed globally (recommended by Google)
+
+**Use specific regions (us/eu) when:**
+- You have data residency requirements
+- Your resources are deployed in specific multi-regions
+- You need to comply with regional regulations
+
+### Finding Your Resource Locations
+
+You can find the correct location values in the Google Cloud Console:
+
+- **`--discovery_location`**: Check the "Location" column in the AI Applications page
+- **`--reasoning_location`**: Find this in the "Agent Engine Details" page  
+- **`--auth_location`**: Check where your authorization resources are created
+- **`--adk_deployment_id`**: Located in the "Agent Engine Details" page (format: "1234567890123456789")
+- **`--app_id`**: Found in the "ID" column of the AI Applications page
+
+### Multi-Region Example
+
+Here's an example using region-specific deployments:
+
+```bash
+agentspace-reg register \
+  --project_id "my-ai-project-12345" \
+  --app_id "customer-support-app" \
+  --display_name "DataAnalysisBot" \
+  --description "Analyzes customer data and provides insights." \
+  --tool_description "An AI agent specialized in data analysis and reporting." \
+  --adk_deployment_id "3721958460127834952" \
+  --discovery_location "us" \
+  --reasoning_location "us-central1" \
+  --auth_location "us-east1"
+```
+
+### Important Notes
+
+- When using `discovery_location` of "us" or "eu", the tool automatically uses region-specific Discovery Engine endpoints
+- Different services can be in different regions (e.g., Discovery Engine in "us", Reasoning Engine in "us-central1")
+- All location flags are optional and default to "global" for backward compatibility
+- For more information about available regions, see the [Google Cloud AI Applications locations documentation](https://cloud.google.com/generative-ai-app-builder/docs/locations)
